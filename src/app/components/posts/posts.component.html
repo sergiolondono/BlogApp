@@ -1,0 +1,86 @@
+<h3>POSTS</h3>
+
+<table
+  class="table 
+table-striped 
+table-hover 
+table-bordered 
+table-sm
+table-responsive-sm"
+  *ngIf="data"
+>
+  <thead>
+    <tr>
+      <th>AuthorName</th>
+      <th>SubmitDate</th>
+      <th>Post Title</th>
+      <th>State</th>
+      <th *ngIf="typeRol == 'writer'">Edit Post</th>
+      <th *ngIf="typeRol == 'editor'">Change Post State</th>
+      <th *ngIf="typeRol == 'editor'">Delete Post</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of data">
+      <td>{{ item.authorName }}</td>
+      <td>{{ item.submitDate }}</td>
+      <td>{{ item.postDescription }}</td>
+      <td>{{ item.state | convertState }}</td>
+      <td *ngIf="item.state != '1' && typeRol != 'editor'">
+        <button class="btn btn-warning btn-sm" (click)="Edit(item)">
+          Edit Post
+        </button>
+      </td>
+      <td *ngIf="typeRol == 'editor'">
+        <select id="{{ item.id }}" class="form-control">
+          <option *ngFor="let item of keys" [value]="item">{{
+            states[item]
+          }}</option>
+        </select>
+        <button class="btn btn-primary btn-sm" (click)="ChangeState(item)">
+          Change Post State
+        </button>
+      </td>
+      <td *ngIf="typeRol == 'editor'">
+        <button class="btn btn-danger btn-sm" (click)="Delete(item)">
+          Delete Post
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<button class="btn btn-success btn-sm" (click)="Create()">Create Post</button>
+
+<div class="container col-sm-12" *ngIf="enablePostForm">
+  <div class="card" style="width: 54rem;">
+    <div class="card-body">
+      <h5 class="card-title">Post</h5>
+      <form class="form-signin" #f="ngForm" (ngSubmit)="SavePost(f.value)">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            id="inputAuthorName"
+            name="authorName"
+            [(ngModel)]="authorName"
+            class="form-control"
+            placeholder="AuthorName"
+          />
+        </div>
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            id="inputPostDescription"
+            name="postDescription"
+            [(ngModel)]="postDescription"
+            class="form-control"
+            placeholder="PostDescription"
+          />
+        </div>
+        <div class="input-group">
+          <button type="submit" class="btn btn-success">Save Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

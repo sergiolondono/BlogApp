@@ -1,0 +1,46 @@
+<table
+  class="table 
+table-striped 
+table-hover 
+table-bordered 
+table-sm
+table-responsive-sm"
+  *ngIf="data"
+>
+  <thead>
+    <tr>
+      <th>AuthorName</th>
+      <th>SubmitDate</th>
+      <td>Post Title</td>
+      <th>Add Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of data">
+      <td>{{ item.authorName }}</td>
+      <td>{{ item.submitDate }}</td>
+      <td>{{ item.postDescription }}</td>
+      <td>
+        <a href="#" (click)="ActivateField(item)">Add Comment</a>
+        <div [hidden]="!showTxtComment">
+          <div style="display: inline-clock">
+            <textarea
+              name="{{ 'comment' + item.id }}"
+              id="{{ 'comment' + item.id }}"
+              cols="15"
+              rows="10"
+            ></textarea>
+          </div>
+          <div style="display: inline-clock">
+            <button
+              class="btn btn-success btn-sm"
+              (click)="SaveComment(item, 'comment')"
+            >
+              Save comment
+            </button>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
